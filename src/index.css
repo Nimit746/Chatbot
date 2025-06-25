@@ -1,0 +1,45 @@
+@import "tailwindcss";
+
+.grdnt{
+  @apply bg-gradient-to-br from-red-500 to-pink-500 via-lime-600
+}
+
+.glass{
+    @apply bg-white/10 backdrop-blur-md border border-white/20 shadow-lg;
+}
+
+.glassbtn{
+  @apply bg-white/10 backdrop-blur-md border border-white/20 shadow-lg;
+}
+
+.gradient{
+  @apply bg-gradient-to-r from-blue-400 via-cyan-700 to-indigo-800;
+}
+
+
+.typing-indicator .typing-dot {
+  animation: typingAnimation 0.8s infinite ease-in-out;
+  font-size: 30px;
+  line-height: 1;
+}
+
+
+#dot1{
+  animation-delay: 0s;
+}
+#dot2{
+  animation-delay: 0.2s;
+}
+#dot3{
+  animation-delay: 0.4s;
+}
+
+
+.hide-scrollbar {
+  scrollbar-width: none;          /* Firefox */
+  -ms-overflow-style: none;       /* Internet Explorer 10+ */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;                  /* Safari and Chrome */
+}

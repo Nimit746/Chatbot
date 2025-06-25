@@ -1,0 +1,105 @@
+import React, { useState } from "react";
+import Textbox from "./Textbox";
+
+const Container = () => {
+  const [messages, setMessages] = useState([
+    {
+      sender: "ai",
+      text: "Hi there! I'm your Fitness AI Assistant. Need help with fat-burning workouts or diet plans? Let's get started!",
+    },
+  ]);
+  const [isTyping, setIsTyping] = useState(false);
+
+  const handleSend = async (userText) => {
+    if (!userText.trim()) return;
+
+    setMessages((prev) => [...prev, { sender: "user", text: userText }]);
+    setIsTyping(true);
+
+    try {
+      const response = await fetch(
+        "https://api.together.xyz/v1/chat/completions",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${import.meta.env.VITE_TOGETHER_API_KEY}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            model: "mistralai/Mixtral-8x7B-Instruct-v0.1",
+            messages: [
+              {
+                role: "system",
+                content:
+                  "You are a helpful fitness assistant that answers in a friendly and encouraging tone.",
+              },
+              { role: "user", content: userText },
+            ],
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`API Error: ${response.status} ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      const aiReply =
+        data?.choices?.[0]?.message?.content ||
+        "Hmm, no clear reply from the AI.";
+      setMessages((prev) => [...prev, { sender: "ai", text: aiReply }]);
+    } catch (error) {
+      console.error("API Error:", error.message);
+
+      // ❗ Optionally, try fallback API here
+      // await callFallbackModel(userText);
+
+      setMessages((prev) => [
+        ...prev,
+        {
+          sender: "ai",
+          text: "⚠️ I'm currently out of free request quota or something went wrong. Try again later, or check your API dashboard.",
+        },
+      ]);
+    } finally {
+      setIsTyping(false);
+    }
+  };
+
+  return (
+    <main className="w-[70%] h-[73%] rounded-4xl p-5 flex items-center justify-center flex-col">
+        <h1 className="mt-20 mb-10 font-bold text-3xl text-center ">Fitness AI Assistant</h1>
+      <div className="w-[60%] min-h-[90%] bg-gray-900 rounded-4xl p-5 flex flex-col overflow-y-auto shadow-md">
+        {messages.map((msg, index) => (
+          <div
+            key={index}
+            className={`message ${
+              msg.sender === "user"
+                ? "text-right text-white"
+                : "text-left text-amber-300"
+            } mb-2`}
+          >
+            {msg.text}
+          </div>
+        ))}
+        {isTyping && (
+          <div className="typing-indicator flex gap-1 text-amber-400 text-xl animate-bounce">
+            <span className="typing-dot" id="dot1">
+              .
+            </span>
+            <span className="typing-dot" id="dot2">
+              .
+            </span>
+            <span className="typing-dot" id="dot3">
+              .
+            </span>
+          </div>
+        )}
+      </div>
+
+      <Textbox onSubmit={handleSend} />
+    </main>
+  );
+};
+
+export default Container;
