@@ -6,7 +6,7 @@ const Textbox = ({ onSubmit }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        onSubmit(input, model);
+        onSubmit(input);
         setInput("");
     };
 
@@ -25,20 +25,12 @@ const Textbox = ({ onSubmit }) => {
                         autoComplete="off"
                     />
 
-                    {/* <select
-            value={model}
-            onChange={(e) => setModel(e.target.value)}
-            className="cursor-pointer"
-            >
-            <option value="mistral">Mistral</option>
-            <option value="phi3">Phi 3</option>
-          </select> */}
                 </div>
 
                 <button
                     type="submit"
                     className="w-30 h-9 rounded-full bg-amber-500 text-white font-bold text-[16px] mt-[20px] items-center justify-center hover:scale-110 cursor-pointer focus:outline-none"
-                >
+                    >
                     Send
                 </button>
             </form>
@@ -47,3 +39,12 @@ const Textbox = ({ onSubmit }) => {
 };
 
 export default Textbox;
+
+{/* <select
+value={model}
+onChange={(e) => setModel(e.target.value)}
+className="cursor-pointer"
+>
+<option value="mistral">Mistral</option>
+<option value="phi3">Phi 3</option>
+</select> */}

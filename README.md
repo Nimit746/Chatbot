@@ -32,7 +32,7 @@ In a world flooded with generic fitness apps, this chatbot delivers personalized
 ### Installation
 
 ```bash
-git clone https://github.com/your-username/Chatbot.git
-cd path-to-your-directory/Chatbot
+git clone https://github.com/your-username/fitness-ai-chatbot.git
+cd fitness-ai-chatbot
 npm install
 ```
