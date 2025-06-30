@@ -67,9 +67,11 @@ const Container = () => {
   };
 
   return (
-    <main className="w-[70%] h-[73%] rounded-4xl p-5 flex items-center justify-center flex-col">
-        <h1 className="mt-20 mb-10 font-bold text-3xl text-center ">Fitness AI Assistant</h1>
-      <div className="w-[60%] min-h-[90%] bg-gray-900 rounded-4xl p-5 flex flex-col overflow-y-auto shadow-md">
+    <main className="w-[90%] h-[72%] rounded-4xl p-5 flex items-center justify-center flex-col sm:w-md md:w-xl lg:w-2xl transition-all">
+      <h1 className="mt-10 mb-5 font-bold text-3xl text-center ">
+        Fitness AI Assistant
+      </h1>
+      <div className="w-full min-h-[90%] bg-gray-900 rounded-4xl p-5 flex flex-col shadow-md overflow-y-scroll hide-scrollbar">
         {messages.map((msg, index) => (
           <div
             key={index}
@@ -77,13 +79,13 @@ const Container = () => {
               msg.sender === "user"
                 ? "text-right text-white"
                 : "text-left text-amber-300"
-            } mb-2`}
+            } mb-2 text-sm sm:text-md md:text-lg`}
           >
             {msg.text}
           </div>
         ))}
         {isTyping && (
-          <div className="typing-indicator flex gap-1 text-amber-400 text-xl animate-bounce">
+          <div className="typing-indicator flex gap-1 text-amber-400 text-xl animate-bounce ">
             <span className="typing-dot" id="dot1">
               .
             </span>
