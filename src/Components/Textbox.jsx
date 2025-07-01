@@ -2,7 +2,6 @@ import React, { useState } from "react";
 
 const Textbox = ({ onSubmit }) => {
     const [input, setInput] = useState("");
-    // const [model, setModel] = useState("mistral");
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -39,11 +38,3 @@ const Textbox = ({ onSubmit }) => {
 
 export default Textbox;
 
-{/* <select
-value={model}
-onChange={(e) => setModel(e.target.value)}
-className="cursor-pointer"
->
-<option value="mistral">Mistral</option>
-<option value="phi3">Phi 3</option>
-</select> */}
