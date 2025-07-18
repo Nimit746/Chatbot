@@ -4,7 +4,7 @@ import Container from './Components/Container'
 function App() {
 
   return (
-    <main className="gradient w-screen h-screen flex items-center justify-center p-13">
+    <main className="gradient w-screen h-screen flex items-center justify-center p-12">
       <Container />
     </main>
   );
