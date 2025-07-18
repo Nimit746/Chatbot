@@ -11,6 +11,11 @@ const Container = () => {
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef(null);
 
+  // Auto-scroll to bottom whenever messages change
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
   const handleSend = async (userText) => {
     if (!userText.trim()) return;
 
@@ -46,9 +51,31 @@ const Container = () => {
 
       const data = await response.json();
       const aiReply =
-        data?.choices?.[0]?.message?.content ||
-        "Hmm, no clear reply from the AI.";
-      setMessages((prev) => [...prev, { sender: "ai", text: aiReply }]);
+        data?.choices?.[0]?.message?.content || "Hmm, no clear reply from the AI.";
+
+      // Add empty AI message placeholder
+      setMessages((prev) => [...prev, { sender: "ai", text: "" }]);
+
+      // Simulate typing effect character-by-character
+      let i = 0;
+      const typingSpeed = 20; // milliseconds per character
+
+      const intervalId = setInterval(() => {
+        setMessages((prev) => {
+          const updated = [...prev];
+          const lastMsg = updated[updated.length - 1];
+          if (lastMsg.sender === "ai") {
+            lastMsg.text += aiReply.charAt(i);
+          }
+          return updated;
+        });
+
+        i++;
+        if (i >= aiReply.length) {
+          clearInterval(intervalId);
+          setIsTyping(false);
+        }
+      }, typingSpeed);
     } catch (error) {
       console.error("API Error:", error.message);
       setMessages((prev) => [
@@ -58,14 +85,9 @@ const Container = () => {
           text: "⚠️ I'm currently out of free request quota or something went wrong. Try again later, or check your API dashboard.",
         },
       ]);
-    } finally {
       setIsTyping(false);
     }
   };
-
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
 
   return (
     <main className="w-[90%] h-[72%] rounded-4xl p-5 flex items-center justify-center flex-col sm:w-md md:w-xl lg:w-2xl transition-all">
