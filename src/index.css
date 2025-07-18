@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 .grdnt{
-  @apply bg-gradient-to-br from-blue-500 to-pink-500 via-lime-600
+  @apply bg-gradient-to-br from-red-500 to-pink-500 via-lime-600
 }
 
 .glass{
