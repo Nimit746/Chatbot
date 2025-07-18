@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Textbox from "./Textbox";
 
 const Container = () => {
@@ -9,6 +9,7 @@ const Container = () => {
     },
   ]);
   const [isTyping, setIsTyping] = useState(false);
+  const messagesEndRef = useRef(null);
 
   const handleSend = async (userText) => {
     if (!userText.trim()) return;
@@ -50,10 +51,6 @@ const Container = () => {
       setMessages((prev) => [...prev, { sender: "ai", text: aiReply }]);
     } catch (error) {
       console.error("API Error:", error.message);
-
-      // ❗ Optionally, try fallback API here
-      // await callFallbackModel(userText);
-
       setMessages((prev) => [
         ...prev,
         {
@@ -65,6 +62,10 @@ const Container = () => {
       setIsTyping(false);
     }
   };
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   return (
     <main className="w-[90%] h-[72%] rounded-4xl p-5 flex items-center justify-center flex-col sm:w-md md:w-xl lg:w-2xl transition-all">
@@ -97,6 +98,7 @@ const Container = () => {
             </span>
           </div>
         )}
+        <div ref={messagesEndRef} />
       </div>
 
       <Textbox onSubmit={handleSend} />
